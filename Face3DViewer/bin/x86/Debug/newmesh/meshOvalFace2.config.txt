@@ -1,5 +1,6 @@
 basemodelid=OvalFace
 index=2
+rotateX=0
 rotateY=-11.0016977928693
 rotateZ=0
 stretchX=0
