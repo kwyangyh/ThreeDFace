@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using System.Globalization;
 
 namespace ThreeDFaces
 {
@@ -125,7 +126,8 @@ namespace ThreeDFaces
             var v = s.Split(',');
             if (v.Length == 2)
             {
-                return new Point(double.Parse(v[0]), double.Parse(v[1]));
+                return new Point(double.Parse(v[0], CultureInfo.InvariantCulture),
+                                 double.Parse(v[1], CultureInfo.InvariantCulture));
             }
 
             return new Point();

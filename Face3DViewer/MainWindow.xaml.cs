@@ -19,6 +19,7 @@ namespace ThreeDFaces
     using System.Windows.Media.Imaging;
     using System.Windows.Shapes;
     using System.IO;
+    using System.Globalization;
 
     /// <summary>
     /// Main Window
@@ -126,7 +127,7 @@ namespace ThreeDFaces
         public MainWindow()
         {
 
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+        
             this.InitializeComponent();
             this.DataContext = this;
 
@@ -414,17 +415,17 @@ namespace ThreeDFaces
             foreach(var position in positions )
             {
                 var xyz = position.Split(',');
-                theGeometry.Positions.Add(new Point3D(double.Parse(xyz[0]),
-                                                      double.Parse(xyz[1]), 
-                                                      double.Parse(xyz[2])));
+                theGeometry.Positions.Add(new Point3D(double.Parse(xyz[0], CultureInfo.InvariantCulture),
+                                                      double.Parse(xyz[1], CultureInfo.InvariantCulture),
+                                                      double.Parse(xyz[2], CultureInfo.InvariantCulture)));
             }
             theGeometry.TextureCoordinates = new PointCollection();
             var textureCoordinates = TextureCoordinates.Split(new string[]{" "},StringSplitOptions.RemoveEmptyEntries );
             foreach(var textureCoordinate in textureCoordinates  )
             {
                 var xy = textureCoordinate.Split(',');
-                theGeometry.TextureCoordinates.Add(new Point(double.Parse(xy[0]),
-                                                              double.Parse(xy[1])));
+                theGeometry.TextureCoordinates.Add(new Point(double.Parse(xy[0], CultureInfo.InvariantCulture),
+                                                              double.Parse(xy[1], CultureInfo.InvariantCulture)));
             }
 
             theGeometry.TriangleIndices =new Int32Collection();
@@ -628,7 +629,9 @@ namespace ThreeDFaces
 
                     var c = lines[i].Split(':');
 
-                    var vertice = new Point3D(double.Parse(c[0]), double.Parse(c[1]), double.Parse(c[2]));
+                    var vertice = new Point3D(double.Parse(c[0], CultureInfo.InvariantCulture),
+                                              double.Parse(c[1], CultureInfo.InvariantCulture),
+                                              double.Parse(c[2], CultureInfo.InvariantCulture));
 
                     this.theGeometry.Positions.Add(vertice);
                     _orgmeshpos.Add(vertice);
@@ -651,7 +654,8 @@ namespace ThreeDFaces
                     {
                         var c = lines[i].Split(':');
 
-                        var vertice = new Point(double.Parse(c[0]), double.Parse(c[1]));
+                        var vertice = new Point(double.Parse(c[0], CultureInfo.InvariantCulture),
+                                                double.Parse(c[1], CultureInfo.InvariantCulture));
 
                         this.theGeometry.TextureCoordinates.Add(vertice);
                         _orgtexture.Add(new Point(vertice.X, vertice.Y));
@@ -1145,7 +1149,8 @@ namespace ThreeDFaces
             var v = s.Split(',');
             if (v.Length == 2)
             {
-                return new Point(double.Parse(v[0]), double.Parse(v[1]));
+                return new Point(double.Parse(v[0], CultureInfo.InvariantCulture),
+                                 double.Parse(v[1], CultureInfo.InvariantCulture));
             }
 
             return new Point();
@@ -1395,11 +1400,11 @@ namespace ThreeDFaces
 
             using (var file = File.CreateText(AppDomain.CurrentDomain.BaseDirectory + "\\temp\\~ref.bmp.info.txt"))
             {
-                file.WriteLine(righteyeRef.desp + "=" + righteyeRef.pt.X + "," + righteyeRef.pt.Y);
-                file.WriteLine(lefteyeRef.desp + "=" + lefteyeRef.pt.X + "," + lefteyeRef.pt.Y);
-                file.WriteLine(noseRef.desp + "=" + righteyeRef.pt.X + "," + noseRef.pt.Y);
-                file.WriteLine(mouthRef.desp + "=" + righteyeRef.pt.X + "," + mouthRef.pt.Y);
-                file.WriteLine(chinRef.desp + "=" + chinRef.pt.X + "," + chinRef.pt.Y);
+                file.WriteLine(righteyeRef.desp + "=" + righteyeRef.pt.X.ToString(CultureInfo.InvariantCulture) + "," + righteyeRef.pt.Y.ToString(CultureInfo.InvariantCulture));
+                file.WriteLine(lefteyeRef.desp + "=" + lefteyeRef.pt.X.ToString(CultureInfo.InvariantCulture) + "," + lefteyeRef.pt.Y.ToString(CultureInfo.InvariantCulture));
+                file.WriteLine(noseRef.desp + "=" + righteyeRef.pt.X.ToString(CultureInfo.InvariantCulture) + "," + noseRef.pt.Y.ToString(CultureInfo.InvariantCulture));
+                file.WriteLine(mouthRef.desp + "=" + righteyeRef.pt.X.ToString(CultureInfo.InvariantCulture) + "," + mouthRef.pt.Y.ToString(CultureInfo.InvariantCulture));
+                file.WriteLine(chinRef.desp + "=" + chinRef.pt.X.ToString(CultureInfo.InvariantCulture) + "," + chinRef.pt.Y.ToString(CultureInfo.InvariantCulture));
             }
 
             FeaturePointType righteyeNew = new FeaturePointType();
@@ -1440,11 +1445,11 @@ namespace ThreeDFaces
             //using (var file = File.CreateText(AppDomain.CurrentDomain.BaseDirectory + "\\temp\\~new.bmp.info.txt"))
             using (var file = File.CreateText(AppDomain.CurrentDomain.BaseDirectory + "temp\\" + fileparts[fileparts.Length-1]+winFitting.FaceIndexString+".info.txt"))
             {
-                file.WriteLine(righteyeNew.desp + "=" + righteyeNew.pt.X + "," + righteyeNew.pt.Y);
-                file.WriteLine(lefteyeNew.desp + "=" + lefteyeNew.pt.X + "," + lefteyeNew.pt.Y);
-                file.WriteLine(noseNew.desp + "=" + noseNew.pt.X + "," + noseNew.pt.Y);
-                file.WriteLine(mouthNew.desp + "=" + mouthNew.pt.X + "," + mouthNew.pt.Y);
-                file.WriteLine(chinNew.desp + "=" + chinNew.pt.X + "," + chinNew.pt.Y);
+                file.WriteLine(righteyeNew.desp + "=" + righteyeNew.pt.X.ToString(CultureInfo.InvariantCulture) + "," + righteyeNew.pt.Y.ToString(CultureInfo.InvariantCulture));
+                file.WriteLine(lefteyeNew.desp + "=" + lefteyeNew.pt.X.ToString(CultureInfo.InvariantCulture) + "," + lefteyeNew.pt.Y.ToString(CultureInfo.InvariantCulture));
+                file.WriteLine(noseNew.desp + "=" + noseNew.pt.X.ToString(CultureInfo.InvariantCulture) + "," + noseNew.pt.Y.ToString(CultureInfo.InvariantCulture));
+                file.WriteLine(mouthNew.desp + "=" + mouthNew.pt.X.ToString(CultureInfo.InvariantCulture) + "," + mouthNew.pt.Y.ToString(CultureInfo.InvariantCulture));
+                file.WriteLine(chinNew.desp + "=" + chinNew.pt.X.ToString(CultureInfo.InvariantCulture) + "," + chinNew.pt.Y.ToString(CultureInfo.InvariantCulture));
             }
            
 
@@ -2042,9 +2047,9 @@ namespace ThreeDFaces
             vscrollz.Value = 0;
             TranslationString = _startmeshTranslationString;
             var v=_startmeshTranslationString.Split (' ');
-            sliderx.Value =double.Parse(v[0]);
-            slidery.Value =double.Parse(v[1]);
-            sliderz.Value =double.Parse(v[2]);
+            sliderx.Value = double.Parse(v[0], CultureInfo.InvariantCulture);
+            slidery.Value = double.Parse(v[1], CultureInfo.InvariantCulture);
+            sliderz.Value = double.Parse(v[2], CultureInfo.InvariantCulture);
         }
 
         private void viewport3d_MouseDown(object sender, MouseButtonEventArgs e)
@@ -2153,9 +2158,9 @@ namespace ThreeDFaces
             hscroll.Value = 0;
          
             var v = _startmeshTranslationString.Split(' ');
-            sliderx.Value = double.Parse(v[0]);
-            slidery.Value = double.Parse(v[1]);
-            sliderz.Value = double.Parse(v[2]);
+            sliderx.Value = double.Parse(v[0], CultureInfo.InvariantCulture);
+            slidery.Value = double.Parse(v[1], CultureInfo.InvariantCulture);
+            sliderz.Value = double.Parse(v[2], CultureInfo.InvariantCulture);
 
             Window5 winGIF = new Window5();
             winGIF.Owner = this;

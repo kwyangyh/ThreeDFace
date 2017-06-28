@@ -17,7 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
-
+using System.Globalization;
 
 namespace ThreeDFaces
 {
@@ -79,6 +79,7 @@ namespace ThreeDFaces
 
         public Window6()
         {
+    
             InitializeComponent();
         }
 
@@ -313,7 +314,9 @@ namespace ThreeDFaces
 
                     var c = lines[i].Split(':');
 
-                    var vertice = new Point3D(double.Parse(c[0]), double.Parse(c[1]), double.Parse(c[2]));
+                    var vertice = new Point3D(double.Parse(c[0], CultureInfo.InvariantCulture),
+                                              double.Parse(c[1], CultureInfo.InvariantCulture),
+                                              double.Parse(c[2], CultureInfo.InvariantCulture));
 
                     _Positions.Add(vertice);
                     _orgmeshpos.Add(vertice);
@@ -642,7 +645,9 @@ namespace ThreeDFaces
                 {
                     foreach (var vertice in _Positions)
 
-                        tw.WriteLine("{0}:{1}:{2}", vertice.X, vertice.Y, vertice.Z);
+                        tw.WriteLine("{0}:{1}:{2}", vertice.X.ToString(CultureInfo.InvariantCulture), 
+                                                    vertice.Y.ToString(CultureInfo.InvariantCulture),
+                                                    vertice.Z.ToString(CultureInfo.InvariantCulture));
 
                     for( int i=0;i<_TextureCoordinates.Count;i++)
                     {
@@ -654,7 +659,8 @@ namespace ThreeDFaces
                         //{
                         //    tw.WriteLine("{0}:{1}", 0, 0);
                         //}
-                        tw.WriteLine("{0}:{1}", _TextureCoordinates[i].X, _TextureCoordinates[i].Y);   
+                        tw.WriteLine("{0}:{1}", _TextureCoordinates[i].X.ToString(CultureInfo.InvariantCulture),
+                                               _TextureCoordinates[i].Y.ToString(CultureInfo.InvariantCulture));   
                     }
 
                 }
@@ -665,10 +671,10 @@ namespace ThreeDFaces
                  {
                      tw.WriteLine("basemodelid={0}",BaseModelID);
                      tw.WriteLine("index={0}",index);
-                     tw.WriteLine("rotateX={0}",sliderx.Value);
-                     tw.WriteLine("rotateY={0}",slidery.Value);
-                     tw.WriteLine("rotateZ={0}",sliderz.Value);
-                     tw.WriteLine("stretchX={0}", sliderStretchX.Value);
+                     tw.WriteLine("rotateX={0}", sliderx.Value.ToString(CultureInfo.InvariantCulture));
+                     tw.WriteLine("rotateY={0}", slidery.Value.ToString(CultureInfo.InvariantCulture));
+                     tw.WriteLine("rotateZ={0}", sliderz.Value.ToString(CultureInfo.InvariantCulture));
+                     tw.WriteLine("stretchX={0}", sliderStretchX.Value.ToString(CultureInfo.InvariantCulture));
                  }
 
                 //the info.txt file

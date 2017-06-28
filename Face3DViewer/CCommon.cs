@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
 using System.Windows.Threading;
+using System.Globalization;
 
 namespace ThreeDFaces
 {
@@ -86,10 +87,10 @@ namespace ThreeDFaces
                       {
                           case "basemodelid": basemodelid = item[1]; break;
                           case "index":  index =int.Parse(item[1]); break;
-                          case "rotateX": rotateX=double.Parse(item[1]);break;
-                          case "rotateY": rotateY = double.Parse(item[1]); break;
-                          case "rotateZ": rotateZ = double.Parse(item[1]); break;
-                          case "stretchX": stretchX = double.Parse(item[1]); break;
+                          case "rotateX": rotateX = double.Parse(item[1], CultureInfo.InvariantCulture); break;
+                          case "rotateY": rotateY = double.Parse(item[1], CultureInfo.InvariantCulture); break;
+                          case "rotateZ": rotateZ = double.Parse(item[1], CultureInfo.InvariantCulture); break;
+                          case "stretchX": stretchX = double.Parse(item[1], CultureInfo.InvariantCulture); break;
                       }
                   }
                 FaceModelTransformType ft = new FaceModelTransformType()

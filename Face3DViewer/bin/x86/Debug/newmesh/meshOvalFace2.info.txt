@@ -1,0 +1,5 @@
+RightEye1=883,487
+LeftEye1=1060,497
+Nose1=953,658
+Mouth3=954,736
+Chin1=987,861
