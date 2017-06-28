@@ -1,0 +1,10 @@
+﻿<Window x:Class="ThreeDFaces.Window4"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Window4" Height="520" Width="500" Loaded="Window_Loaded" MouseUp="Window_MouseUp" StateChanged="Window_StateChanged" Closed="Window_Closed" ResizeMode="CanMinimize">
+    <Canvas Name="Canvas1" Margin="0,0,0,0">
+        <Grid Name="Grid1" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Blue" Canvas.Left="0" Canvas.Top="0">
+            <Image Name="Image1" HorizontalAlignment="Left" Height="500" Margin="0,0,0,0" VerticalAlignment="Top" Width="Auto"/>
+         </Grid>
+     </Canvas> 
+</Window>

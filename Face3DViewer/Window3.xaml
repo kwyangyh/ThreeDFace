@@ -1,0 +1,8 @@
+﻿<Window x:Class="ThreeDFaces.Window3"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="50" Width="50" WindowStyle="None"  PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown" PreviewMouseMove="Window_PreviewMouseMove" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" ResizeMode="CanResizeWithGrip">
+    <Grid Name="MainGrid">
+        <Image Name="Image1" HorizontalAlignment="Left" Height="Auto"  VerticalAlignment="Top"  Width="Auto"/>
+
+    </Grid>
+</Window>

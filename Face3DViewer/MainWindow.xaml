@@ -1,0 +1,378 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ThreeDFaces"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="ThreeDFaces.MainWindow"
+        Title="Face3DViewer"
+        Height="761" Width="959" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="#FF190202" StateChanged="Window_StateChanged" 
+        >
+
+    <Window.Resources>
+        <ContextMenu x:Key="cmFModel">
+            <MenuItem Name="miEdit" Header="Edit" Click="miEdit_Click"/>
+            <Separator />
+            <MenuItem Name="miDelete" Header="Delete" Click="miDelete_Click" />
+        </ContextMenu>
+        <ContextMenu x:Key="cmFView">
+            <MenuItem Name="miMapLeft" Header="MapLeft" Click="m_iMapping_Click" IsCheckable="True"/>
+            <MenuItem Name="miMapRight" Header="MapRight" Click="m_iMapping_Click" IsCheckable="True"/>
+            <MenuItem Name="miNoMap" Header="NoMap" Click="m_iMapping_Click" IsCheckable="True"/>
+            
+        </ContextMenu>
+
+        <SolidColorBrush x:Key="MediumGreyBrush" Color="#ff6e6e6e"/>
+        <SolidColorBrush x:Key="KinectPurpleBrush" Color="#ff52318f"/>
+        <SolidColorBrush x:Key="KinectBlueBrush" Color="#ff00BCF2"/>
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="layoutGrid" Margin="0 0 0 0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="90"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="94"/>
+            <RowDefinition Height="Auto" MinHeight="30"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="25"/>
+            <!--<RowDefinition Height="90"/>-->
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Width="90">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="AliceBlue"  Margin="-20,0,0,0">
+            <Image x:Name="RefImage" Grid.Row="0" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" Margin="-20,0,0,0" Width="Auto" Height="Auto" MouseLeftButtonDown="RefImage_MouseLeftButtonDown1" />
+            </Grid>
+            <CheckBox Name="checkNoStretch" Content="No Stretch" Grid.Row="1" Margin="-26,0,0,0" Foreground="#FFDEC0C0" IsChecked="True" Checked="checkNoStretch_Checked" Unchecked="checkNoStretch_Unchecked"/>
+        </Grid>
+
+        <DockPanel Grid.Row="0" Grid.Column="1" Margin="10,0,10,24" Grid.ColumnSpan="1">
+            <!--<Image DockPanel.Dock="Left" Source="Images\Logo.png" Stretch="None"  Height="32" Width="81" Margin="0 10 0 5"/>-->
+            <TextBlock DockPanel.Dock="Right" Margin="0 0 -1 0"  VerticalAlignment="Bottom" Foreground="{StaticResource MediumGreyBrush}" FontFamily="Segoe UI" FontSize="18"/>
+            <Grid x:Name="internallayout" Width="672">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="117"/>
+                    <ColumnDefinition Width="0"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80"/>
+
+                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="49"/>
+                    <ColumnDefinition Width="45"/>
+                    <ColumnDefinition Width="45"/>
+                    <ColumnDefinition Width="45"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBox  x:Name="Text1" Height="20" Margin="0,10,0,0" TextWrapping="Wrap" Text="{Binding TranslationString, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}" VerticalAlignment="Top" IsEnabled="False" />
+                    <TextBox  x:Name="Text2" Height="20" Margin="0,10,0,0" TextWrapping="Wrap" Text="{Binding RotationString, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}" VerticalAlignment="Top" IsEnabled="False" Grid.Row="1" />
+
+                </Grid>
+                <Button  Grid.Column="3" x:Name="Button1" Content="Translate" Margin="9,15,71,16" Click="Button1_Click" RenderTransformOrigin="0.39,0.208" Visibility="Hidden"/>
+                <Grid Grid.Column="2" Margin="0,0,2,0" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="X" HorizontalAlignment="Center" Margin="30,0,10,0" Width="34" Foreground="#FFF0E0E0"/>
+                    <Slider x:Name="sliderx" Grid.Row ="1" HorizontalAlignment="Center" Height="30" Margin="0,0,0,0" VerticalAlignment="Top" Width="78" Minimum="-1" RenderTransformOrigin="0.5,0.5" ValueChanged="slider_ValueChanged" Maximum="1" SmallChange="0.01"/>
+                </Grid>
+                <Grid Grid.Column="4" Margin="10,0,2,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Y" HorizontalAlignment="Center" Margin="23,0,6,0" Width="44" Grid.Column="1" Foreground="#FFF7E9E9"/>
+                    <Slider x:Name="slidery" Grid.Row ="1" HorizontalAlignment="Center" Height="30" Margin="-5,0" VerticalAlignment="Top" Width="78" Minimum="-1" RenderTransformOrigin="0.5,0.5" ValueChanged="slider_ValueChanged" Maximum="1" SmallChange="0.01"/>
+                </Grid>
+
+                <Grid Grid.Column="5" Margin="10,0,2,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Z" HorizontalAlignment="Center" Margin="24,0,10,0" Width="24" Foreground="#FFEEE0E0"/>
+                    <Slider x:Name="sliderz" Grid.Row ="1" HorizontalAlignment="Center" Height="30" Margin="-5,0" VerticalAlignment="Top" Width="78" Minimum="-1.5" RenderTransformOrigin="0.5,0.5" ValueChanged="slider_ValueChanged" Maximum="1.5" SmallChange="0.01"/>
+                </Grid>
+                <Button Grid.Column="6" x:Name="Button3" Content="Reset" Margin="3,21,5,10" Click="Button3_Click" />
+                
+                <Button Grid.Column="7" x:Name="Button4" Content="Snap" Margin="0,21,10,10" Click="Button4_Click" />
+                <Button Grid.Column="8" x:Name="Button5" Content="&lt;--&gt;" Margin="0,21,0,10" Click="Button5_Click" HorizontalAlignment="Left" Width="35" MouseRightButtonDown="Button5_MouseRightButtonDown"/>
+                <Button Grid.Column="9" x:Name="Button6" Content="v--^" Margin="0,21,10,10" Click="Button6_Click" HorizontalAlignment="Right" Width="35" MouseRightButtonDown="Button6_MouseRightButtonDown"/>
+                <Button Grid.Column="10" x:Name="Button7" Content="Create&#x0a;   GIF" Margin="-6,21,0,10" Click="Button7_Click"/>
+                <Slider Name="sliderBrightness" Grid.Column="11" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Top" Height="70" Width="22" Orientation="Vertical" Maximum="255" Minimum="-255" ValueChanged="slider_ValueChanged" SmallChange="5" LargeChange="5">
+                    <Slider.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1"/>
+                            <GradientStop Color="White"/>
+                        </LinearGradientBrush>
+                    </Slider.Background>
+                </Slider>
+                <Slider Name="sliderContrast" Grid.Column="12" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Top" Height="70" Width="22" Orientation="Vertical" Maximum="127" Minimum="-127" ValueChanged="slider_ValueChanged" SmallChange="5" LargeChange="5">
+                    <Slider.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="Black" Offset="0"/>
+                            <GradientStop Color="White" Offset="1"/>
+                        </RadialGradientBrush>
+                    </Slider.Background>
+                </Slider>
+            </Grid>
+
+        </DockPanel>
+        <Grid Grid.Row="0" Grid.Column="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Grid Background="White" d:IsHidden="True" >
+            <Image Name="ImageMesh" HorizontalAlignment="Center" VerticalAlignment="Top"  Grid.Row="0"  MouseLeftButtonDown="ImageMesh_MouseLeftButtonDown" 
+                  Width="50" Height="50"/>
+            </Grid>
+            <CheckBox Name="chkImageMesh" Content="Show Mesh" Foreground="White" Grid.Row="1" IsChecked="True" Checked="chkImageMesh_Checked" Unchecked="chkImageMesh_Unchecked"/>
+            <CheckBox Name="chkGrid" Content="Show Grid" Foreground="White" Grid.Row="2" Checked="chkGrid_Checked" Unchecked="chkGrid_Unchecked"/>
+
+        </Grid>
+        <Grid Grid.Row="1"  Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Slider x:Name="sliderRed" Grid.Column="0"  Minimum="0" Maximum="255" Value="255" Margin="10,0" 
+				LargeChange="10" SmallChange="1"  ValueChanged="sliderColor_ValueChanged" Background="Red"/>
+
+            <Slider x:Name="sliderGreen" Grid.Column="1" Minimum="0" Maximum="255" Value="255" Margin="10,0" 
+				LargeChange="10" SmallChange="1"  ValueChanged="sliderColor_ValueChanged" Background="Lime"/>
+
+            <Slider x:Name="sliderBlue" Grid.Column="2" Minimum="0" Maximum="255" Value="255" Margin="10,0" 
+				LargeChange="10" SmallChange="1" ValueChanged="sliderColor_ValueChanged" Background="Blue"/>
+
+            <Label x:Name="labelColor" Content="White" Background="White"  Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="82"/>
+            <Slider x:Name="sliderAmb" Grid.Column="4" Minimum="0" Maximum="255" Value="220" Margin="10,0" 
+				LargeChange="10" SmallChange="1" ValueChanged="sliderColor_ValueChanged">
+                <Slider.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Slider.Background>
+            </Slider>
+            <!--<TextBlock Grid.Column="3"  x:Name="txt_Status" Text="{Binding StatusText}" />-->
+            <!--<RadioButton Content="RadioButton" Grid.Column="2" HorizontalAlignment="Left" Margin="27,10,0,0" VerticalAlignment="Top"/>-->
+        </Grid>
+        <Slider x:Name="vscrollz" 
+			Grid.Row="1" Grid.Column="0"
+			Orientation="Vertical"  
+			Minimum="-180" Maximum="180" 
+			LargeChange="10" SmallChange="1" Value="0" Margin="93,10,0,6" Grid.RowSpan="3" 
+			ValueChanged="slider_ValueChanged"              
+          />
+
+
+        <Slider x:Name="vscroll" 
+			Grid.Row="1" Grid.Column="2" 
+			Orientation="Vertical"  Margin="0,10,0,6"
+			Minimum="-180" Maximum="180"
+			LargeChange="10" SmallChange="1"
+			ValueChanged="slider_ValueChanged"              
+			Grid.RowSpan="3" />
+        <Grid Name="GridVSnap"  Grid.Column="0" Grid.Row="3" Margin="0,0,27,0" PreviewMouseWheel="GridVSnap_PreviewMouseWheel">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Image Name="VSnap0" Uid="VSnap0" Grid.Row="0" MouseRightButtonDown="VSnap_MouseRightButtonDown" MouseLeftButtonDown="VSnap_MouseLeftButtonDown"/>
+            <Image Name="VSnap1" Uid="VSnap1" Grid.Row="1" MouseRightButtonDown="VSnap_MouseRightButtonDown" MouseLeftButtonDown="VSnap_MouseLeftButtonDown"/>
+            <Image Name="VSnap2" Uid="VSnap2" Grid.Row="2" MouseRightButtonDown="VSnap_MouseRightButtonDown" MouseLeftButtonDown="VSnap_MouseLeftButtonDown"/>
+            <Image Name="VSnap3" Uid="VSnap3" Grid.Row="3" MouseRightButtonDown="VSnap_MouseRightButtonDown" MouseLeftButtonDown="VSnap_MouseLeftButtonDown"/>
+            <Image Name="VSnap4" Uid="VSnap4" Grid.Row="4" MouseRightButtonDown="VSnap_MouseRightButtonDown" MouseLeftButtonDown="VSnap_MouseLeftButtonDown"/>
+            <Image Name="VSnap5" Uid="VSnap5" Grid.Row="5" MouseRightButtonDown="VSnap_MouseRightButtonDown" MouseLeftButtonDown="VSnap_MouseLeftButtonDown"/>
+
+        </Grid>
+        <Grid Name="GridFModel" Grid.Row="3" Grid.Column="3" Margin="0,0,10,0" PreviewMouseWheel="GridFModel_PreviewMouseWheel">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Image Uid="FModel0" Tag="Image_GenericFace" Name="FModel0" Grid.Row="0" MouseLeftButtonDown="Image_Face_MouseLeftButtonDown" 
+                   MouseRightButtonDown="Image_Face_MouseRightButtonDown"/>
+            <Image Uid="FModel1" Tag="Image_RoundFace" Name="FModel1" Grid.Row="1" MouseLeftButtonDown="Image_Face_MouseLeftButtonDown"
+                   MouseRightButtonDown="Image_Face_MouseRightButtonDown"/>
+            <Image Uid="FModel2" Tag="Image_BroadFace" Name="FModel2" Grid.Row="2" MouseLeftButtonDown="Image_Face_MouseLeftButtonDown"
+                   MouseRightButtonDown="Image_Face_MouseRightButtonDown"/>
+            <Image Uid="FModel3" Tag="Image_LongFace" Name="FModel3" Grid.Row="3" MouseLeftButtonDown="Image_Face_MouseLeftButtonDown"
+                   MouseRightButtonDown="Image_Face_MouseRightButtonDown"/>
+            <Image Uid="FModel4" Tag="Image_OvalBroadFace" Name="FModel4" Grid.Row="4" MouseLeftButtonDown="Image_Face_MouseLeftButtonDown"
+                   MouseRightButtonDown="Image_Face_MouseRightButtonDown"/>
+            <Image Uid="FModel5" Tag="Image_OvalFace" Name="FModel5" Grid.Row="5" MouseLeftButtonDown="Image_Face_MouseLeftButtonDown"
+                   MouseRightButtonDown="Image_Face_MouseRightButtonDown"/>
+        </Grid>
+        <Grid  Name="MainGrid" Grid.Row="3" Grid.Column="1" Height="690" VerticalAlignment="Top">
+            <Image x:Name="ColorImage" HorizontalAlignment="Right" VerticalAlignment="Top" Width="300" Height="300" d:IsHidden="True" MouseLeftButtonDown="ColorImage_MouseLeftButtonDown" />
+            <Grid Name="MeshGrid" Margin="0,300,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" d:IsHidden="False">
+                <Image x:Name="MeshImage" Width="Auto" Height="300" d:IsHidden="False" MouseLeftButtonDown="MeshImage_MouseLeftButtonDown" MouseRightButtonDown="MeshImage_MouseRightButtonDown" />
+            </Grid>
+            <Viewport3D  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" x:Name="viewport3d" RenderTransformOrigin="0.5,0.5" MouseDown="viewport3d_MouseDown" MouseRightButtonDown="viewport3d_MouseRightButtonDown" >
+                <Viewport3D.RenderTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Viewport3D.RenderTransform>
+                <!-- Defines the camera used to view the 3D object. -->
+                <Viewport3D.Camera>
+                    <!--<PerspectiveCamera Position="0.0, 0.0, 0.45" LookDirection="0,0, -1"  UpDirection="0,1,0" FieldOfView="70" />-->
+                    <PerspectiveCamera
+						Position = "0, -0.08, 0.5"
+						LookDirection = "0, 0, -1"
+						UpDirection = "0, 1, 0"
+						FieldOfView = "70">
+                        <PerspectiveCamera.Transform>
+                            <Transform3DGroup>
+                                <RotateTransform3D>
+                                    <RotateTransform3D.Rotation>
+                                        <AxisAngleRotation3D
+											Axis="0 1 0" 
+											Angle="{Binding Value, ElementName=hscroll}" />
+                                    </RotateTransform3D.Rotation>
+                                </RotateTransform3D>
+                                <RotateTransform3D>
+                                    <RotateTransform3D.Rotation>
+                                        <AxisAngleRotation3D
+											Axis="1 0 0" 
+											Angle="{Binding Value, ElementName=vscroll}" />
+                                    </RotateTransform3D.Rotation>
+                                </RotateTransform3D>
+                                <RotateTransform3D>
+                                    <RotateTransform3D.Rotation>
+                                        <AxisAngleRotation3D
+											Axis="0 0 1" 
+											Angle="{Binding Value, ElementName=vscrollz}" />
+                                    </RotateTransform3D.Rotation>
+                                </RotateTransform3D>
+
+                            </Transform3DGroup>
+                        </PerspectiveCamera.Transform>
+
+
+                    </PerspectiveCamera>
+                </Viewport3D.Camera>
+
+                <!-- The ModelVisual3D children contain the 3D models -->
+                <!-- This ModelVisual3D defines the light cast in the scene. Without light, the 3D 
+                   object cannot be seen. Also, the direction of the lights affect shadowing. If desired,
+                   you can create multiple lights with different colors that shine from different directions. -->
+                <ModelVisual3D>
+                    <ModelVisual3D.Content>
+                        <Model3DGroup>
+                            <AmbientLight x:Name="amlight" Color="White"/>
+                            <!--<DirectionalLight x:Name="dirlight" Color ="Black" Direction="1,-2,-3" />-->
+                            <DirectionalLight x:Name="dirlight" Color="White" Direction="0,0,-0.5" >
+                                <DirectionalLight.Transform>
+                                    <Transform3DGroup>
+                                        <TranslateTransform3D OffsetZ="0" OffsetX="0" OffsetY="0"/>
+                                        <ScaleTransform3D ScaleZ="1" ScaleY="1" ScaleX="1"/>
+                                        <!--<RotateTransform3D d:EulerAngles="0.6,-0.116,-0.074">
+                                            <RotateTransform3D.Rotation>
+                                                <AxisAngleRotation3D Axis="0.975,-0.189,-0.119" Angle="0.616"/>
+                                            </RotateTransform3D.Rotation>
+                                        </RotateTransform3D>-->
+                                        <TranslateTransform3D OffsetZ="0" OffsetX="0" OffsetY="0"/>
+                                        <TranslateTransform3D OffsetY="-0.042" OffsetX="0.469" OffsetZ="-0.103"/>
+                                    </Transform3DGroup>
+                                </DirectionalLight.Transform>
+                            </DirectionalLight>
+                        </Model3DGroup>
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+                <ModelVisual3D>
+                    <ModelVisual3D.Content>
+                        <GeometryModel3D>
+
+                            <!-- The geometry specifes the shape of the 3D plane. In this sample, a flat sheet is created. -->
+                            <GeometryModel3D.Geometry>
+                                <!--<MeshGeometry3D x:Name="theGeometry"
+                                   TriangleIndices="0,1,2 3,4,5 "
+                                   Normals="0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 "
+                                   TextureCoordinates="0,0 1,0 1,1 1,1 0,1 0,0 "
+                                   Positions="-0.25,-0.25,-1   0.25,-0.25,-1    0.25,0.25,-1    0.25,0.25,-1    -0.25,0.25,-1    -0.25,-0.25,-1 " />-->
+
+                                <!-- Positions="-0.125,-0.125,0   0.125,-0.125,0   -0.125,0.125,0   0.125,0.125,0"-->
+                                <MeshGeometry3D x:Name="theGeometry"
+									Positions="-0.05,-0.1,0   0.05,-0.1,0   -0.05,0,0   0.05,0,0  -0.05,-0.1,-0.1   0.05,-0.1,-0.1   -0.05,0,-0.1   0.05,0,-0.1"                                                														
+                                    TextureCoordinates="0,1 1,1 0,0 1,0 0,0 1,0 0,1 1,1"
+                                    TriangleIndices="0,1,2 1,3,2 0,2,4 2,6,4 2,3,6 3,7,6 3,1,5 3,5,7 0,5,1 0,4,5 6,5,4 6,7,5"/>
+                                <!--
+                                "0,1,2 1,3,2" />
+                                "1,1  0,0  0,0 1,1 1,1  0,0  0,0  1,1 "
+             	                 TextureCoordinates="0,1  1,1  0,0  1,0 1,1  1,1  1,1  1,1 "  
+                                	Normals="0,0,1   0,0,1   0,0,1   0,0,1  0,0,1   0,0,1   0,0,1   0,0,1"
+                                -->
+                            </GeometryModel3D.Geometry>
+
+                            <!-- The material specifies the material applied to the 3D object. In this sample a linear gradient covers the surface of the 3D object.-->
+                            <GeometryModel3D.Material>
+                                <MaterialGroup>
+                                    <DiffuseMaterial x:Name="theMaterial">
+                                        <DiffuseMaterial.Brush>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <!--<GradientStop Color="LightPink"   Offset="0" />-->
+                                                <GradientStop Color="AliceBlue" Offset="0" />
+                                                <GradientStop Color="DarkBlue" Offset="1" />
+                                                <!--<GradientStop Color="#FFFFE0A0"  Offset="1" />-->
+                                            </LinearGradientBrush>
+                                        </DiffuseMaterial.Brush>
+                                    </DiffuseMaterial>
+                                </MaterialGroup>
+                            </GeometryModel3D.Material>
+
+                            <!-- Apply a transform to the object. In this sample, a rotation transform is applied, rendering the 3D object rotated. --><!--
+                            <GeometryModel3D.Transform>
+                                <RotateTransform3D>
+                                    <RotateTransform3D.Rotation>
+                                        <AxisAngleRotation3D Axis="0,3,0" Angle="0" />
+                                    </RotateTransform3D.Rotation>
+                                </RotateTransform3D>
+                            </GeometryModel3D.Transform>-->
+                        </GeometryModel3D>
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+            </Viewport3D>
+        </Grid>
+        <Slider x:Name="hscroll" 
+			Grid.Row="4" Grid.Column="1"
+			Orientation="Horizontal" 
+			Minimum="-180" Maximum="180" 
+			LargeChange="10" SmallChange="1" Value="0" IsDirectionReversed="True" 
+			ValueChanged="slider_ValueChanged" Margin="0,0,0,0"             
+                />
+        <!--<Grid Background="LightGray" Grid.Column="1" Grid.Row="5"/>-->
+
+    </Grid>
+</Window>

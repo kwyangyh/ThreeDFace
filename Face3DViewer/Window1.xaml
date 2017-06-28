@@ -1,0 +1,21 @@
+﻿<Window x:Class="ThreeDFaces.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Window1" Height="500" Width="500" Loaded="Window_Loaded" Closed="Window_Closed">
+
+    <Grid Name="MainGrid">
+        <Grid Name="TopGrid" Background="Azure">
+            <!--<Button Name="TestButton" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Test" 
+                    Height="30" Width="100"></Button>-->
+            <Button Name="ButtonSave" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Save" 
+                   Height="30" Width="65" Panel.ZIndex="1" MouseLeftButtonDown="ButtonSave_MouseLeftButtonDown" PreviewMouseLeftButtonDown="ButtonSave_PreviewMouseLeftButtonDown"/>
+             <Image Name="Image1" HorizontalAlignment="Stretch" Height="Auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="Auto" Panel.ZIndex="0" 
+                    />
+          
+        </Grid>
+        <!--<Canvas Name="Canvas1" Width="Auto" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
+         </Canvas>-->       
+        
+    </Grid>
+
+</Window>

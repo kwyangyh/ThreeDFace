@@ -1,0 +1,1 @@
+http://stackoverflow.com/questions/4513787/opencv-from-c-sharp-interop-hangs-on-cvsaveimage-if-no-debugger
