@@ -78,7 +78,7 @@ namespace ThreeDFaces
                 string basemodelid="";
                 int index = 0;
                 double rotateX = 0, rotateY = 0, rotateZ = 0, stretchX = 0;
-                var parts = s.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var parts = s.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                   for(int i=0;i<parts.Length ;i++)
                   {
                       var item = parts[i].Split('=');

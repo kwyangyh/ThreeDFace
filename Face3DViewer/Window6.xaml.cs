@@ -263,7 +263,7 @@ namespace ThreeDFaces
             using (TextReader tr = File.OpenText(System.AppDomain.CurrentDomain.BaseDirectory + "//meshmapping.txt"))
             {
                 string s = tr.ReadToEnd();
-                var lines = s.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = s.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                 _Mappings = new List<FacePointMapping>();
                 var n = lines.Length;
                 for(int i=0;i<n ;i++)
@@ -284,7 +284,7 @@ namespace ThreeDFaces
             using (TextReader tr = File.OpenText(System.AppDomain.CurrentDomain.BaseDirectory + "//tri_index.txt"))
             {
                 string s = tr.ReadToEnd();
-                var lines = s.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = s.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                 _TriangleIndices = new Int32Collection();
                 var n = lines.Length;
                 for (int i = 0; i < n; i++)
@@ -300,7 +300,7 @@ namespace ThreeDFaces
                 _Positions = new Point3DCollection();
                 _TextureCoordinates = new PointCollection();
                 _orgmeshpos = new Point3DCollection();
-                var lines = s.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = s.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
 
                 int n = lines.Length;
